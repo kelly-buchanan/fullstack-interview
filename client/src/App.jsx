@@ -1,35 +1,57 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from "react";
+import axios from "axios";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [input, setInput] = useState("");
+  const [results, setResults] = useState([]);
+  const [mode, setMode] = useState("submit"); // "submit" or "search"
+
+  // TODO: Implement handleSubmit
+
+  // TODO: Implement handleSearch
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div style={{ padding: 20, fontFamily: "sans-serif" }}>
+      <h1>Embedding Search Demo</h1>
 
-export default App
+      <div style={{ marginBottom: 10 }}>
+        <button onClick={() => setMode("submit")} disabled={mode === "submit"}>
+          Submit Message
+        </button>
+        <button onClick={() => setMode("search")} disabled={mode === "search"}>
+          Search
+        </button>
+      </div>
+
+      <input
+        type="text"
+        style={{ width: "300px", padding: "5px" }}
+        placeholder={mode === "submit" ? "Enter a message" : "Search query"}
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+      />
+
+      <button
+        style={{ marginLeft: "10px" }}
+        onClick={
+          mode === "submit"
+            ? /* TODO: call handleSubmit */ undefined
+            : /* TODO: call handleSearch */ undefined
+        }
+      >
+        {mode === "submit" ? "Submit" : "Search"}
+      </button>
+
+      {mode === "search" && results.length > 0 && (
+        <div style={{ marginTop: 20 }}>
+          <h3>Top Results</h3>
+          {results.map((r, i) => (
+            <div key={i} style={{ marginBottom: 8 }}>
+              <strong>{r.text}</strong> — Score: {r.score.toFixed(3)}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
